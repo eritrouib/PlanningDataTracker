@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planning Data Tracker</title>
+  <meta name="description" content="Which planning datasets each council in England actually publishes on planning.data.gov.uk, and where there are data-quality problems. Know when a 'no' from a planning tool really means no.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="22" height="22"><rect x="5" y="16" width="5" height="10" rx="1.5" fill="currentColor"/><rect x="13.5" y="10" width="5" height="16" rx="1.5" fill="currentColor"/><rect x="22" y="5" width="5" height="21" rx="1.5" fill="#fbbf24"/></svg>
+      </span>
+      <div>
+        <h1>Planning Data Tracker</h1>
+        <p>Can you trust the "no"? What each council in England publishes to Planning Data &middot; <span class="credit">by @ET</span></p>
+      </div>
+    </div>
+    <div id="updated" class="updated"></div>
+  </header>
+
+  <main class="layout">
+    <section class="panel" aria-label="Summary and councils">
+      <div id="nodata" class="nodata" hidden>
+        <strong>No national snapshot yet.</strong>
+        Run the "Update tracker" GitHub Action (or <code>python scripts/build_tracker.py</code>) to build it. Meanwhile you can check any council live below.
+      </div>
+
+      <section class="block" id="overview">
+        <div class="tiles" id="tiles"></div>
+        <h2>Share of councils with each dataset</h2>
+        <p class="muted small">A council counts if any records of that type fall within its area.</p>
+        <ul class="bars" id="bars"></ul>
+      </section>
+
+      <section class="block">
+        <h2>Councils</h2>
+        <div class="search-row">
+          <label class="sr-only" for="q">Find a council</label>
+          <input id="q" type="search" placeholder="Find a council, e.g. Kingston" autocomplete="off">
+          <select id="sort" aria-label="Sort councils">
+            <option value="name">A–Z</option>
+            <option value="score-asc">Fewest datasets</option>
+            <option value="score-desc">Most datasets</option>
+            <option value="issues">Data issues first</option>
+          </select>
+        </div>
+        <ul class="councils" id="councils"></ul>
+      </section>
+    </section>
+
+    <section class="map-wrap" aria-label="Map">
+      <div id="map"></div>
+      <div class="legend" id="legend" aria-label="Map legend"></div>
+      <aside class="detail" id="detail" hidden aria-live="polite"></aside>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/data.js" onerror="window.TRACKER_DATA = null"></script>
+  <script src="js/tracker.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
